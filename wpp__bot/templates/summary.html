@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resumos de Atendimento - Última Hora</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Resumos de Atendimento - Última Hora</h1>
+        {% if summaries %}
+            {% for sender, summary in summaries.items() %}
+                <div class="summary-container">
+                    <div class="contact-info">
+                        <h2>Cliente: {{ sender }}</h2>
+                        <a href="https://wa.me/{{ sender.split(':')[1] }}" class="contact-button" target="_blank">
+                            Contatar Cliente
+                        </a>
+                        <a href="{{ url_for('view_conversation_history', sender=sender) }}" class="contact-button contact-button-secondary">
+                            Ver Histórico
+                        </a>
+                    </div>
+                    <div class="summary">
+                        <div class="summary-header">Resumo do Atendimento</div>
+                        <ul class="summary-list">
+                            <li><strong>Nome do Cliente:</strong> {{ summary.get('nome_cliente', 'Faltando') }}</li>
+                            <li><strong>Número do Pedido:</strong> {{ summary.get('numero_pedido', 'Faltando') }}</li>
+                            <li><strong>Canal de Compra:</strong> {{ summary.get('canal_compra', 'Faltando') }}</li>
+                            <li><strong>Problema Relatado:</strong> {{ summary.get('problema_relatado', 'Faltando') }}</li>
+                            <li><strong>Resumo do Atendimento:</strong> {{ summary.get('resumo_atendimento', 'Resumo indisponível') }}</li>
+                        </ul>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Não há resumos de atendimento no último intervalo de 1 hora.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
